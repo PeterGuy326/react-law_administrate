@@ -2,12 +2,16 @@ import React, { lazy } from 'react'
 import Home from '../views/Home'
 // import About from '../views/About'
 // import User from '../views/User'
-import Login from '../views/Login'
+import Index from '../views/Index'
 const About = lazy(() => import('../views/About'))
 const User = lazy(() => import('../views/User'))
 const Page1 = lazy(() => import('../views/Page1'))
 const Page2 = lazy(() => import('../views/Page2'))
 const Page301 = lazy(() => import('../views/Page301'))
+const Case = lazy(() => import('../views/Case'))
+
+const LoginComponent = lazy(() => import('../components/LoginComponent'))
+const RegisterComponent = lazy(() => import('../components/RegisterComponent'))
 import { Navigate } from 'react-router-dom'
 
 const withLoadingComponent = (component: JSX.Element) => (
@@ -19,7 +23,21 @@ const withLoadingComponent = (component: JSX.Element) => (
 const routes = [
     {
         path: '/',
-        element: <Navigate to='/login'/>
+        element: <Navigate to='/pwd-login'/>
+    },
+    {
+        path: '/',
+        element: <Index />,
+        children: [
+            {
+                path: '/pwd-login',
+                element: withLoadingComponent(<LoginComponent />)
+            },
+            {
+                path: '/register',
+                element: withLoadingComponent(<RegisterComponent />)
+            }
+        ]
     },
     {
         path: '/',
@@ -40,12 +58,18 @@ const routes = [
         ]
     },
     {
-        path: '/login',
-        element: <Login />
+        path: '/',
+        element: <Home />,
+        children: [
+            {
+                path: '/case',
+                element: withLoadingComponent(<Case />)
+            }
+        ]
     },
     {
         path: '*',
-        element: <Navigate to='/login'/>
+        element: <Navigate to='/pwd-login'/>
     }
 ]
 

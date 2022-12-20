@@ -58,18 +58,8 @@ const items: MenuItem[] = [
     },
     {
       label: '案件管理',
-      key: 'page4',
-      icon: <TeamOutlined />,
-      children:[
-        {
-          label: '栏目 401',
-          key: '/page4/page401',
-        },
-        {
-          label: '栏目 304',
-          key: '/page4/page402',
-        }
-      ]
+      key: '/case',
+      icon: <TeamOutlined />
     },
     {
       label: '栏目 5',

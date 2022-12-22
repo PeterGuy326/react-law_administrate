@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
+    "@ant-design/pro-components": "^2.3.47",
     "antd": "^5.0.5",
     "axios": "^1.2.1",
     "crypto-js": "^4.1.1",
@@ -20,7 +21,8 @@
     "react-scripts": "1.1.4",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2",
-    "reset-css": "^5.0.1"
+    "reset-css": "^5.0.1",
+    "umi-request": "^1.4.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",

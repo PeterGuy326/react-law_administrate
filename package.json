@@ -21,8 +21,7 @@
     "react-scripts": "1.1.4",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2",
-    "reset-css": "^5.0.1",
-    "umi-request": "^1.4.0"
+    "reset-css": "^5.0.1"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",

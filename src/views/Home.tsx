@@ -27,7 +27,7 @@ const View: React.FC = () => {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2022 Created by zucc</Footer>
       </Layout>
     </Layout>
   );

@@ -28,43 +28,43 @@ function getItem(
 
 const items: MenuItem[] = [
     {
-      label: '栏目 1',
-      key: '/page1',
-      icon: <PieChartOutlined />
+        label: '栏目 1',
+        key: '/page1',
+        icon: <PieChartOutlined />
     },
     {
-      label: '栏目 2',
-      key: '/page2',
-      icon: <DesktopOutlined />
+        label: '栏目 2',
+        key: '/page2',
+        icon: <DesktopOutlined />
     },
     {
-      label: '栏目 3',
-      key: 'page3',
-      icon: <UserOutlined />,
-      children:[
-        {
-          label: '栏目 301',
-          key: '/page3/page301',
-        },
-        {
-          label: '栏目 302',
-          key: '/page3/page302',
-        },
-        {
-          label: '栏目 303',
-          key: '/page3/page303',
-        }
-      ]
+        label: '栏目 3',
+        key: 'page3',
+        icon: <UserOutlined />,
+        children: [
+            {
+                label: '栏目 301',
+                key: '/page3/page301',
+            },
+            {
+                label: '栏目 302',
+                key: '/page3/page302',
+            },
+            {
+                label: '栏目 303',
+                key: '/page3/page303',
+            }
+        ]
     },
     {
-      label: '案件管理',
-      key: '/case',
-      icon: <TeamOutlined />
+        label: '案件管理',
+        key: '/caseList',
+        icon: <TeamOutlined />
     },
     {
-      label: '栏目 5',
-      key: '/page5',
-      icon: <FileOutlined />
+        label: '栏目 5',
+        key: '/page5',
+        icon: <FileOutlined />
     }
 ]
 
@@ -73,14 +73,14 @@ const MainMenu: React.FC = () => {
     const navigateTo = useNavigate()
 
     const currentRoute = useLocation()
-  
+
     const menuClick = (e: { key: string }) => {
         navigateTo(e.key)
     }
-    
-    let firstOpenKey:string = "";
+
+    let firstOpenKey: string = "";
     // 在这里进行对比   find
-    function findKey(obj:{key:string}){
+    function findKey(obj: { key: string }) {
         return obj.key === currentRoute.pathname
     }
     // 多对比的是多个children
@@ -98,16 +98,16 @@ const MainMenu: React.FC = () => {
     }
 
     return (
-        <Menu 
+        <Menu
             theme='dark'
-            defaultSelectedKeys={[currentRoute.pathname]} 
-            mode='inline' 
-            items={items} 
-            onClick={menuClick} 
-            onOpenChange={handleOpenChange} 
-            openKeys={openKeys} 
+            defaultSelectedKeys={[currentRoute.pathname]}
+            mode='inline'
+            items={items}
+            onClick={menuClick}
+            onOpenChange={handleOpenChange}
+            openKeys={openKeys}
         />
     )
 }
-  
+
 export default MainMenu;

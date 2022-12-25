@@ -1,4 +1,4 @@
-import * as AdministrateApiType from './../types/api/administrate';
+import * as AdministrateApiType from './../types/api/administrate'
 import request, { Resp } from './index'
 
 // 根据密码登录

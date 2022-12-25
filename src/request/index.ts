@@ -1,10 +1,14 @@
 import axios from "axios"
+import * as BaseConstant from '../constant/base'
+
+const Token = localStorage.getItem(BaseConstant.LOGIN_TOKEN)
 
 const instance = axios.create({
     // 基本请求路径的抽取
     // baseURL: "",
     // 这个时间是你每次请求的过期时间，这次请求认为20秒之后这个请求就是失败的
-    timeout: 20000
+    timeout: 20000,
+    ...(Token ? { headers: { 'authorization': Token } } : {})
 })
 
 // 请求拦截器

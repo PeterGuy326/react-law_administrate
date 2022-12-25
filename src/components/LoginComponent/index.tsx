@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { captchaApi } from '@/request/CaptchaApi'
 import * as AdministrateApi from '@/request/AdministrateApi'
 import { aes_encrypt } from '@/utils/aes'
+import * as BaseConstant from '../../constant/base'
 const Login: React.FC = () => {
     const navigateTo = useNavigate()
     useEffect(() => {
@@ -40,7 +41,7 @@ const Login: React.FC = () => {
         })
         if (loginByPasswordRes.code === 0) {
             message.success('登录成功')
-            localStorage.setItem('react-law-token', loginByPasswordRes.data.token)
+            localStorage.setItem(BaseConstant.LOGIN_TOKEN, loginByPasswordRes.data.token)
             navigateTo('/page1')
         }
     }

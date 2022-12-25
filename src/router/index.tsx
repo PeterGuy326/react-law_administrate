@@ -1,17 +1,14 @@
 import React, { lazy } from 'react'
 import Home from '../views/Home'
-// import About from '../views/About'
-// import User from '../views/User'
 import Index from '../views/Index'
-const About = lazy(() => import('../views/About'))
-const User = lazy(() => import('../views/User'))
 const Page1 = lazy(() => import('../views/Page1'))
 const Page2 = lazy(() => import('../views/Page2'))
 const Page301 = lazy(() => import('../views/Page301'))
-const Case = lazy(() => import('../views/Case'))
-
 const LoginComponent = lazy(() => import('../components/LoginComponent'))
 const RegisterComponent = lazy(() => import('../components/RegisterComponent'))
+const CaseListComponent = lazy(() => import('../components/CaseComponent/list'))
+const AddCaseComponent = lazy(() => import('../components/CaseComponent/add'))
+
 import { Navigate } from 'react-router-dom'
 
 const withLoadingComponent = (component: JSX.Element) => (
@@ -62,8 +59,12 @@ const routes = [
         element: <Home />,
         children: [
             {
-                path: '/case',
-                element: withLoadingComponent(<Case />)
+                path: '/caseList',
+                element: withLoadingComponent(<CaseListComponent />)
+            },
+            {
+                path: '/addCase',
+                element: withLoadingComponent(<AddCaseComponent />)
             }
         ]
     },

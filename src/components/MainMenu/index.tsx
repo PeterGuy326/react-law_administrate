@@ -62,9 +62,9 @@ const items: MenuItem[] = [
         icon: <TeamOutlined />
     },
     {
-        label: '栏目 5',
-        key: '/page5',
-        icon: <FileOutlined />
+        label: '部门管理',
+        key: '/groupList',
+        icon: <TeamOutlined />
     }
 ]
 

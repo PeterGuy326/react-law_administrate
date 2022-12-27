@@ -19,7 +19,6 @@ const App: React.FC = () => {
     };
 
     const onChangeCaseCategory = (e: RadioChangeEvent) => {
-        console.log('radio checked', e.target.value);
         setCaseCategory(e.target.value);
     };
 

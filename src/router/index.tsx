@@ -8,6 +8,7 @@ const LoginComponent = lazy(() => import('../components/LoginComponent'))
 const RegisterComponent = lazy(() => import('../components/RegisterComponent'))
 const CaseListComponent = lazy(() => import('../components/CaseComponent/list'))
 const AddCaseComponent = lazy(() => import('../components/CaseComponent/add'))
+const GroupListComponent = lazy(() => import('../components/GroupComponent/list'))
 
 import { Navigate } from 'react-router-dom'
 
@@ -66,6 +67,16 @@ const routes = [
                 path: '/addCase',
                 element: withLoadingComponent(<AddCaseComponent />)
             }
+        ]
+    },
+     {
+        path: '/',
+        element: <Home />,
+        children: [
+            {
+                path: '/groupList',
+                element: withLoadingComponent(<GroupListComponent />)
+            },
         ]
     },
     {

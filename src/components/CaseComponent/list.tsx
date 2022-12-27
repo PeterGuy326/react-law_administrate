@@ -2,10 +2,10 @@ import { ProList } from '@ant-design/pro-components'
 import { Badge, Button, Space, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
 import * as CaseApi from '../../request/CaseApi'
-import * as CaseViewType from '../../types/view/case'
+import * as CaseComponentType from '../../types/component/case'
 import { useNavigate } from 'react-router-dom'
 
-let dataSource: CaseViewType.CaseProListItem[] = []
+let dataSource: CaseComponentType.CaseProListItem[] = []
 
 const renderBadge = (count: number, active = false) => {
     return (
@@ -39,7 +39,7 @@ export default () => {
     }
 
     const getCaseList = async (page: number, size: number) => {
-        const dataSourceTemp: CaseViewType.CaseProListItem[] = []
+        const dataSourceTemp: CaseComponentType.CaseProListItem[] = []
         const { data } = await CaseApi.getCaseList({
             page,
             size
@@ -69,7 +69,7 @@ export default () => {
 
 
     return (
-        <ProList<CaseViewType.CaseProListItem>
+        <ProList<CaseComponentType.CaseProListItem>
             rowKey="name"
             dataSource={dataSource}
             metas={{
@@ -93,7 +93,7 @@ export default () => {
                     dataIndex: 'content',
                     render: (text) => (
                         <div key="label" style={{ display: 'flex', justifyContent: 'space-around' }}>
-                            {(text as CaseViewType.CaseProListContentItem[]).map((t) => (
+                            {(text as CaseComponentType.CaseProListContentItem[]).map((t) => (
                                 <div key={t.label}>
                                     <div style={{ color: '#00000073' }}>{t.label}</div>
                                     <div style={{ color: '#000000D9' }}>
@@ -138,10 +138,10 @@ export default () => {
                             key: 'tab1',
                             label: <span>全部案件{renderBadge(totalKey, activeKey === 'tab1')}</span>,
                         },
-                        {
-                            key: 'tab2',
-                            label: <span>我创建的案件{renderBadge(totalKey, activeKey === 'tab2')}</span>,
-                        },
+                        // {
+                        //     key: 'tab2',
+                        //     label: <span>我创建的案件{renderBadge(totalKey, activeKey === 'tab2')}</span>,
+                        // },
                     ],
                     async onChange(key) {
                         await setActiveKey(key);
@@ -162,9 +162,9 @@ export default () => {
                 total: totalKey,
                 pageSize: sizeVal,
                 onChange: async (page, pageSize) => {
-                    setPageVal(page)
-                    setSizeVal(pageSize)
-                    getCaseList(page, pageSize)
+                    await setPageVal(page)
+                    await setSizeVal(pageSize)
+                    await getCaseList(pageVal, sizeVal)
                 }
             }}
         />

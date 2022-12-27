@@ -43,6 +43,8 @@ const Login: React.FC = () => {
             message.success('登录成功')
             localStorage.setItem(BaseConstant.LOGIN_TOKEN, loginByPasswordRes.data.token)
             navigateTo('/page1')
+        } else {
+            message.error(loginByPasswordRes.msg)
         }
     }
     const getCaptchaImg = async () => {

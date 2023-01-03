@@ -1,7 +1,12 @@
 import { CaseProListContentItem } from './case'
 
 export interface GroupProListItem {
+    id: number,
+    url: string,
     groupId: string,
     groupName: string,
-    content: CaseProListContentItem[]
+    leaderId: string,
+    leaderName: string,
+    createdAt: string,
+    updatedAt: string,
 }

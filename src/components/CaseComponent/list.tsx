@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import * as CaseApi from '../../request/CaseApi'
 import * as CaseComponentType from '../../types/component/case'
 import { useNavigate } from 'react-router-dom'
+import { CaseCategoryMap } from '../../constant/case'
 
 let dataSource: CaseComponentType.CaseProListItem[] = []
 
@@ -84,7 +85,7 @@ export default () => {
                     render: (text) => {
                         return (
                             <Space size={0}>
-                                <Tag color="blue">{text}</Tag>
+                                <Tag color="blue">{CaseCategoryMap[text as string]}</Tag>
                             </Space>
                         );
                     },

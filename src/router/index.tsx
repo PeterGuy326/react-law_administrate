@@ -60,10 +60,12 @@ const routes = [
         element: <Home />,
         children: [
             {
+                breadcrumb: '案件列表',
                 path: '/caseList',
                 element: withLoadingComponent(<CaseListComponent />)
             },
             {
+                breadcrumb: '案件添加',
                 path: '/addCase',
                 element: withLoadingComponent(<AddCaseComponent />)
             }
@@ -74,6 +76,7 @@ const routes = [
         element: <Home />,
         children: [
             {
+                breadcrumb: '部门列表',
                 path: '/groupList',
                 element: withLoadingComponent(<GroupListComponent />)
             },

@@ -9,6 +9,7 @@ const RegisterComponent = lazy(() => import('../components/RegisterComponent'))
 const CaseListComponent = lazy(() => import('../components/CaseComponent/list'))
 const AddCaseComponent = lazy(() => import('../components/CaseComponent/add'))
 const GroupListComponent = lazy(() => import('../components/GroupComponent/list'))
+const MemberListByGroupIdComponent = lazy(() => import('../components/GroupComponent/members'))
 
 import { Navigate } from 'react-router-dom'
 
@@ -80,6 +81,11 @@ const routes = [
                 path: '/groupList',
                 element: withLoadingComponent(<GroupListComponent />)
             },
+            {
+                breadcrumb: '部门成员',
+                path: '/memberListByGroupId',
+                element: withLoadingComponent(<MemberListByGroupIdComponent />)
+            }
         ]
     },
     {

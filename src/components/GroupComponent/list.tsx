@@ -1,4 +1,4 @@
-import { Space, Table } from 'antd';
+import { Space, Table, Button } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -28,8 +28,8 @@ export default () => {
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a>查看</a>
-                    <a>删除</a>
+                    <Button onClick={linkToGroupDetail(record.groupId)}>查看</Button>
+                    <Button>删除</Button>
                 </Space>
             ),
         },
@@ -41,8 +41,9 @@ export default () => {
 
     const navigateTo = useNavigate()
 
-    const linkToGroupDetail = async (groupId: string) => {
-        navigateTo(`/groupDetail?id=${groupId}`)
+    const linkToGroupDetail = (groupId: string) => {
+        navigateTo(`/memberListByGroupId?id=${groupId}`)
+        return undefined
     }
 
     const getGroupList = async () => {

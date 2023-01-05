@@ -1,81 +1,111 @@
-import React, { useEffect, useState } from 'react';
-import { Avatar, Divider, List, Skeleton } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { DownOutlined } from '@ant-design/icons'
+import type { ProColumns } from '@ant-design/pro-components'
+import { ProTable } from '@ant-design/pro-components'
+import { Dropdown, Popconfirm } from 'antd'
+import React from 'react'
 
-interface DataType {
-  gender: string;
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
-  email: string;
-  picture: {
-    large: string;
-    medium: string;
-    thumbnail: string;
-  };
-  nat: string;
+export type Member = {
+	uid: string
+	username: string
+	role: RoleType
 }
 
-const App: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<DataType[]>([]);
+export type RoleMapType = Record<
+	string,
+	{
+		name: string
+		desc: string
+	}
+>
 
-  const loadMoreData = () => {
-    if (loading) {
-      return;
-    }
-    setLoading(true);
-    fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-      .then((res) => res.json())
-      .then((body) => {
-        setData([...data, ...body.results]);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
+export type RoleType = 'leader' | 'admin' | 'member'
 
-  useEffect(() => {
-    loadMoreData();
-  }, []);
+const RoleMap: RoleMapType = {
+	leader: {
+		name: '组长',
+		desc: '修改组员，案件的权限',
+	},
+	admin: {
+		name: '管理员',
+		desc: '修改案件的权限',
+	},
+	member: {
+		name: '组员',
+		desc: '查看案件的权限',
+	},
+}
 
-  return (
-    <div
-      id="scrollableDiv"
-      style={{
-        height: 400,
-        overflow: 'auto',
-        padding: '0 16px',
-        border: '1px solid rgba(140, 140, 140, 0.35)',
-      }}
-    >
-      <InfiniteScroll
-        dataLength={data.length}
-        next={loadMoreData}
-        hasMore={data.length < 50}
-        loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-        scrollableTarget="scrollableDiv"
-      >
-        <List
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item key={item.email}>
-              <List.Item.Meta
-                avatar={<Avatar src={item.picture.large} />}
-                title={<a href="https://ant.design">{item.name.last}</a>}
-                description={item.email}
-              />
-              <div>Content</div>
-            </List.Item>
-          )}
-        />
-      </InfiniteScroll>
-    </div>
-  );
-};
+const MemberList: React.FC = () => {
+	const tableListDataSource: Member[] = []
 
-export default App;
+	const UserListByGroupId = () => {}
+
+	const renderRemoveUser = (text: string) => (
+		<Popconfirm key='popconfirm' title={`确认${text}吗?`} okText='是' cancelText='否'>
+			<a>{text}</a>
+		</Popconfirm>
+	)
+
+	const columns: ProColumns<Member>[] = [
+		{
+			dataIndex: 'uid',
+			title: '成员账号',
+			width: 150,
+		},
+		{
+			dataIndex: 'username',
+			title: '名称',
+		},
+		{
+			dataIndex: 'role',
+			title: '角色',
+			render: (_, record) => (
+				<Dropdown
+					menu={{
+						items: [
+							{
+								label: '管理员',
+								key: 'admin',
+							},
+							{
+								label: '操作员',
+								key: 'operator',
+							},
+						],
+					}}
+				>
+					<a>
+						{RoleMap[record.role || 'admin'].name} <DownOutlined />
+					</a>
+				</Dropdown>
+			),
+		},
+		{
+			title: '操作',
+			dataIndex: 'x',
+			valueType: 'option',
+			render: (_, record) => {
+				let node = renderRemoveUser('退出')
+				if (record.role === 'admin') {
+					node = renderRemoveUser('移除')
+				}
+				return [<a key='edit'>编辑</a>, node]
+			},
+		},
+	]
+
+	return (
+		<ProTable<Member>
+			columns={columns}
+			dataSource={tableListDataSource}
+			rowKey='outUserNo'
+			pagination={{
+				showQuickJumper: true,
+			}}
+			toolBarRender={false}
+			search={false}
+		/>
+	)
+}
+
+export default MemberList

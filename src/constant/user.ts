@@ -1,4 +1,9 @@
 export const RoleMapType = {
+	0: {
+		name: '未知',
+		desc: '未知',
+        value: 'unkown'
+	},
 	1: {
 		name: '组员',
 		desc: '查看案件的权限',

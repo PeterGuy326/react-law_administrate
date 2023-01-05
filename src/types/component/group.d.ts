@@ -8,3 +8,9 @@ export interface GroupProListItem {
     createdAt: string,
     updatedAt: string,
 }
+
+export interface MembersProTableItem {
+    uid: string
+    username: string
+    role: string
+}

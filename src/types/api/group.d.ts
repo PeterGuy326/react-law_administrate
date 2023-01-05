@@ -6,13 +6,3 @@ export interface ListAllGroupsResp {
     createdTime: string,
     updatedTime: string
 }
-
-export interface ListUsersByGroupIdReq {
-    groupId: string
-}
-
-export interface ListUsersByGroupIdResp {
-    uid: string,
-	username: string,
-    role: number
-}

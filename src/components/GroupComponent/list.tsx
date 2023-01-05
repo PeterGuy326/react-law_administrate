@@ -1,7 +1,7 @@
 import { Space, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as GroupApi from '../../request/GroupApi'
 import * as GroupComponentType from '../../types/component/group'
 

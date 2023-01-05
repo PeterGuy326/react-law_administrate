@@ -2,43 +2,39 @@ import { DownOutlined } from '@ant-design/icons'
 import type { ProColumns } from '@ant-design/pro-components'
 import { ProTable } from '@ant-design/pro-components'
 import { Dropdown, Popconfirm } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
+import * as UserApi from '../../request/UserApi'
+import * as UserConstant from '../../constant/user'
 
 export type Member = {
 	uid: string
 	username: string
-	role: RoleType
-}
-
-export type RoleMapType = Record<
-	string,
-	{
-		name: string
-		desc: string
-	}
->
-
-export type RoleType = 'leader' | 'admin' | 'member'
-
-const RoleMap: RoleMapType = {
-	leader: {
-		name: '组长',
-		desc: '修改组员，案件的权限',
-	},
-	admin: {
-		name: '管理员',
-		desc: '修改案件的权限',
-	},
-	member: {
-		name: '组员',
-		desc: '查看案件的权限',
-	},
+	role: number
 }
 
 const MemberList: React.FC = () => {
-	const tableListDataSource: Member[] = []
+	let tableListDataSource: Member[] = []
 
-	const UserListByGroupId = () => {}
+	useEffect(() => {
+		userListByGroupId()
+	}, [])
+
+	const userListByGroupId = async () => {
+		const groupId = new URLSearchParams(window.location.search).get('id') || ''
+		const tableListDataSourceTmp: Member[] = []
+		if (groupId !== '') {
+			const { data } = await UserApi.listUsersByGroupId({ groupId })
+			data.map((item) => {
+				const { uid, username, role } = item
+				tableListDataSourceTmp.push({
+					uid,
+					username,
+					role
+				})
+			})
+		}
+		tableListDataSource = tableListDataSourceTmp
+	}
 
 	const renderRemoveUser = (text: string) => (
 		<Popconfirm key='popconfirm' title={`确认${text}吗?`} okText='是' cancelText='否'>
@@ -49,7 +45,7 @@ const MemberList: React.FC = () => {
 	const columns: ProColumns<Member>[] = [
 		{
 			dataIndex: 'uid',
-			title: '成员账号',
+			title: '账号',
 			width: 150,
 		},
 		{
@@ -64,18 +60,22 @@ const MemberList: React.FC = () => {
 					menu={{
 						items: [
 							{
+								label: '组长',
+								key: 'leader',
+							},
+							{
 								label: '管理员',
 								key: 'admin',
 							},
 							{
-								label: '操作员',
-								key: 'operator',
+								label: '组员',
+								key: 'member',
 							},
 						],
 					}}
 				>
 					<a>
-						{RoleMap[record.role || 'admin'].name} <DownOutlined />
+						{UserConstant.RoleMapType[record.role].name} <DownOutlined />
 					</a>
 				</Dropdown>
 			),
@@ -86,9 +86,9 @@ const MemberList: React.FC = () => {
 			valueType: 'option',
 			render: (_, record) => {
 				let node = renderRemoveUser('退出')
-				if (record.role === 'admin') {
-					node = renderRemoveUser('移除')
-				}
+				// if (record.role === 'admin') {
+				// 	node = renderRemoveUser('移除')
+				// }
 				return [<a key='edit'>编辑</a>, node]
 			},
 		},
@@ -97,8 +97,7 @@ const MemberList: React.FC = () => {
 	return (
 		<ProTable<Member>
 			columns={columns}
-			dataSource={tableListDataSource}
-			rowKey='outUserNo'
+			rowKey='uid'
 			pagination={{
 				showQuickJumper: true,
 			}}

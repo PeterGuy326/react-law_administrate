@@ -47,6 +47,11 @@ const Login: React.FC = () => {
 			message.error(loginByPasswordRes.msg)
 		}
 	}
+
+	const gotoRegister = async () => {
+		navigateTo('/register')
+	}
+
 	const getCaptchaImg = async () => {
 		const captchaApiRes = await captchaApi()
 		if (captchaApiRes.code === 200) {
@@ -59,14 +64,17 @@ const Login: React.FC = () => {
 			<Space direction='vertical' size='large' style={{ display: 'flex' }}>
 				<Input placeholder='用户名' onChange={uidChange} />
 				<Input.Password placeholder='密码' onChange={passwordChange} />
-				<div className='captchaBox'>
+				{/* <div className='captchaBox'>
 					<Input placeholder='验证码' onChange={captchaChange} />
 					<div className='catpchaImg' onClick={getCaptchaImg}>
 						<img height='38' src={captchaImg} alt='' />
 					</div>
-				</div>
+				</div> */}
 				<Button type='primary' block onClick={gotoLogin}>
 					登录
+				</Button>
+				<Button type='dashed' block onClick={gotoRegister}>
+					注册
 				</Button>
 			</Space>
 		</div>

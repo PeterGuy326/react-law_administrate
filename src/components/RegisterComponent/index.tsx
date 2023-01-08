@@ -38,12 +38,19 @@ const Register: React.FC = () => {
         }
     }
 
+    const gotoLogin = () => {
+        navigateTo('/login')
+    }
+
     return (
         <div className="form">
             <Space direction="vertical" size="large" style={{ display: 'flex' }}>
                 <Input placeholder="姓名" onChange={usernameChange} />
                 <Input.Password placeholder="密码" onChange={passwordChange} />
                 <Button type="primary" block onClick={register}>注册</Button>
+                <Button type='dashed' block onClick={gotoLogin}>
+					返回
+				</Button>
             </Space>
         </div>
     )

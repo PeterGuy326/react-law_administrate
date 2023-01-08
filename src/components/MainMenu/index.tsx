@@ -65,6 +65,11 @@ const items: MenuItem[] = [
         label: '部门管理',
         key: '/groupList',
         icon: <TeamOutlined />
+    },
+    {
+        label: '退出登录',
+        key: '/pwd-login',
+        icon: <TeamOutlined />
     }
 ]
 

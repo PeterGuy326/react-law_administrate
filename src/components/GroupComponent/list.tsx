@@ -29,7 +29,6 @@ export default () => {
 			render: (_, record) => (
 				<Space size='middle'>
 					<Link to={`/memberListByGroupId?id=${record.groupId}`}>查看</Link>
-					<a>删除</a>
 				</Space>
 			),
 		},

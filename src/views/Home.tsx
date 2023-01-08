@@ -21,7 +21,7 @@ const View: React.FC = () => {
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb></Breadcrumb>
-          <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
+          <div style={{ padding: 24, minHeight: '85%', background: colorBgContainer }}>
             <Outlet />
           </div>
         </Content>

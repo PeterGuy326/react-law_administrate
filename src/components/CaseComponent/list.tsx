@@ -6,8 +6,6 @@ import * as CaseComponentType from '../../types/component/case'
 import { useNavigate } from 'react-router-dom'
 import { CaseCategoryMap } from '../../constant/case'
 
-let dataSource: CaseComponentType.CaseProListItem[] = []
-
 const renderBadge = (count: number, active = false) => {
 	return (
 		<Badge
@@ -27,6 +25,7 @@ export default () => {
 	const [totalKey, setTotalKey] = useState(0)
 	const [pageVal, setPageVal] = useState(1)
 	const [sizeVal, setSizeVal] = useState(5)
+	const [dataSource, setDataSource] = useState<CaseComponentType.CaseProListItem[]>([])
 
 	useEffect(() => {
 		getCaseList(pageVal, sizeVal)
@@ -64,7 +63,7 @@ export default () => {
 			})
 		})
 		await setTotalKey(data.total)
-		dataSource = dataSourceTemp
+		setDataSource(dataSourceTemp)
 	}
 
 	return (
@@ -96,18 +95,6 @@ export default () => {
 								<div key={t.label}>
 									<div style={{ color: '#00000073' }}>{t.label}</div>
 									<div style={{ color: '#000000D9' }}>
-										{/* {t.status === 'success' && (
-                                            <span
-                                                style={{
-                                                    display: 'inline-block',
-                                                    width: 8,
-                                                    height: 8,
-                                                    borderRadius: '50%',
-                                                    backgroundColor: '#52c41a',
-                                                    marginInlineEnd: 8,
-                                                }}
-                                            />
-                                        )} */}
 										{t.value}
 									</div>
 								</div>
@@ -137,10 +124,6 @@ export default () => {
 							key: 'tab1',
 							label: <span>全部案件{renderBadge(totalKey, activeKey === 'tab1')}</span>,
 						},
-						// {
-						//     key: 'tab2',
-						//     label: <span>我创建的案件{renderBadge(totalKey, activeKey === 'tab2')}</span>,
-						// },
 					],
 					async onChange(key) {
 						await setActiveKey(key)
@@ -163,7 +146,7 @@ export default () => {
 				onChange: async (page, pageSize) => {
 					await setPageVal(page)
 					await setSizeVal(pageSize)
-					await getCaseList(pageVal, sizeVal)
+					await getCaseList(page, pageSize)
 				},
 			}}
 		/>

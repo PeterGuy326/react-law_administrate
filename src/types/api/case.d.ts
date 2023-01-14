@@ -24,10 +24,9 @@ export interface SaveCaseReq {
     caseId?: string,
     name?: string,
     category?: string,
-    fileIdList?: string[],
+    filenameList?: string[],
     text?: string,
-    desc?: string,
-    groupId?: string
+    desc?: string
 }
 
 export interface SaveCaseResp {

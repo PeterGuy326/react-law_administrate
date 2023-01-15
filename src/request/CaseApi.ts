@@ -9,3 +9,7 @@ export async function getCaseList(params: CaseApiType.GetCaseListReq): Promise<R
 export async function saveCase(params: CaseApiType.SaveCaseReq): Promise<Resp<CaseApiType.SaveCaseResp>> {
 	return await request.post('http://127.0.0.1:3000/administrate/case/saveCase', params)
 }
+
+export async function getCaseDetail(params: CaseApiType.GetCaseDetailReq): Promise<Resp<CaseApiType.GetCaseDetailResp>> {
+	return await request.post('http://127.0.0.1:3000/administrate/case/getCaseDetail', params)
+}

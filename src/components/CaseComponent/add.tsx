@@ -14,7 +14,7 @@ import * as _ from 'lodash'
 const { TextArea } = Input
 type LayoutType = Parameters<typeof Form>[0]['layout']
 
-const App: React.FC = () => {
+export default () => {
 	const navigateTo = useNavigate()
 	const [form] = Form.useForm()
 	const [formLayout, setFormLayout] = useState<LayoutType>('horizontal')
@@ -131,5 +131,3 @@ const App: React.FC = () => {
 		</Form>
 	)
 }
-
-export default App

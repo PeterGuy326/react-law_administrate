@@ -5,6 +5,7 @@ import * as CaseApi from '../../request/CaseApi'
 import * as CaseComponentType from '../../types/component/case'
 import { useNavigate } from 'react-router-dom'
 import { CaseCategoryMap } from '../../constant/case'
+import { Link } from 'react-router-dom'
 
 const renderBadge = (count: number, active = false) => {
 	return (
@@ -103,16 +104,10 @@ export default () => {
 					),
 				},
 				actions: {
-					render: (text, row) => [
-						<a href='' target='_blank' rel='noopener noreferrer' key='link'>
-							编辑
-						</a>,
-						<a href='' target='_blank' rel='noopener noreferrer' key='warning'>
-							复制
-						</a>,
-						<a href='' target='_blank' rel='noopener noreferrer' key='view'>
-							删除
-						</a>,
+					render: (_, record) => [
+						<Space size='middle'>
+							<Link to={`/caseDetail?id=${record.caseId}`}>查看</Link>
+						</Space>
 					],
 				},
 			}}

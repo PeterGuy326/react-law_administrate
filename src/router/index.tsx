@@ -8,13 +8,21 @@ const LoginComponent = lazy(() => import('../components/LoginComponent'))
 const RegisterComponent = lazy(() => import('../components/RegisterComponent'))
 const CaseListComponent = lazy(() => import('../components/CaseComponent/list'))
 const AddCaseComponent = lazy(() => import('../components/CaseComponent/add'))
+const CaseDetailComponent = lazy(() => import('../components/CaseComponent/detail'))
 const GroupListComponent = lazy(() => import('../components/GroupComponent/list'))
 const MemberListByGroupIdComponent = lazy(() => import('../components/GroupComponent/members'))
 
 import { Navigate } from 'react-router-dom'
+import { Spin } from 'antd'
 
 const withLoadingComponent = (component: JSX.Element) => (
-    <React.Suspense fallback = {<div>Loading..</div>}>
+    <React.Suspense fallback={
+        <Spin tip="Loading" size="large" style={{
+            padding: '250px 0'
+        }}>
+            <div className="content" />
+        </Spin>
+    }>
         {component}
     </React.Suspense>
 )
@@ -22,7 +30,7 @@ const withLoadingComponent = (component: JSX.Element) => (
 const routes = [
     {
         path: '/',
-        element: <Navigate to='/pwd-login'/>
+        element: <Navigate to='/pwd-login' />
     },
     {
         path: '/',
@@ -51,7 +59,7 @@ const routes = [
                 element: withLoadingComponent(<Page2 />)
             },
             {
-                path:"/page3/page301",
+                path: "/page3/page301",
                 element: withLoadingComponent(<Page301 />)
             }
         ]
@@ -69,10 +77,15 @@ const routes = [
                 breadcrumb: '案件添加',
                 path: '/addCase',
                 element: withLoadingComponent(<AddCaseComponent />)
+            },
+            {
+                breadcrumb: '案件详情',
+                path: '/caseDetail',
+                element: withLoadingComponent(<CaseDetailComponent />)
             }
         ]
     },
-     {
+    {
         path: '/',
         element: <Home />,
         children: [
@@ -90,7 +103,7 @@ const routes = [
     },
     {
         path: '*',
-        element: <Navigate to='/pwd-login'/>
+        element: <Navigate to='/pwd-login' />
     }
 ]
 

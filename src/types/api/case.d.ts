@@ -32,3 +32,18 @@ export interface SaveCaseReq {
 export interface SaveCaseResp {
     caseId: string
 }
+
+export interface GetCaseDetailReq {
+    caseId: string
+}
+
+export interface GetCaseDetailResp {
+    caseId: string,
+    name: string,
+    category: string,
+    groupId: string,
+    filenameList: string[],
+    text: string,
+    createdAt: string,
+    updatedAt: string
+}

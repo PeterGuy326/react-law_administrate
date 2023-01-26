@@ -3,6 +3,7 @@ import { Button, Input, Space, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { captchaApi } from '@/request/CaptchaApi'
 import * as AdministrateApi from '@/request/AdministrateApi'
+import * as UserApi from '@/request/UserApi'
 import { aes_encrypt } from '@/utils/aes'
 import * as BaseConstant from '../../constant/base'
 const Login: React.FC = () => {
@@ -42,6 +43,17 @@ const Login: React.FC = () => {
 		if (loginByPasswordRes.code === 0) {
 			message.success('登录成功')
 			localStorage.setItem(BaseConstant.LOGIN_TOKEN, loginByPasswordRes.data.token)
+			const { data, code } = await UserApi.getUserInfo()
+			if (code === 0) {
+				const { uid, username, groupId, role } = data
+				const userStr = JSON.stringify({
+					uid,
+					username,
+					groupId,
+					role
+				})
+				localStorage.setItem(BaseConstant.USER_INFO, userStr)
+			}
 			navigateTo('/page1')
 		} else {
 			message.error(loginByPasswordRes.msg)

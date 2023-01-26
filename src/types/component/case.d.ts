@@ -10,3 +10,10 @@ export interface CaseProListContentItem {
     label: string,
     value: string
 }
+
+export interface CaseDetailCommentItem {
+    creatorId: string,
+    content: string,
+    createdAt: string,
+    updatedAt: string
+}

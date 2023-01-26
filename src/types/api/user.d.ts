@@ -24,3 +24,12 @@ export interface DeleteUsersGroupByLeaderReq {
 export interface DeleteUsersGroupByLeaderRes {
     isOk: boolean
 }
+
+export interface GetUserInfoReq {}
+
+export interface GetUserInfoResp {
+    uid: string,
+	username: string,
+	groupId: string,
+	role: number
+}

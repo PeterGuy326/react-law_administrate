@@ -12,3 +12,7 @@ export async function updateUsersGroupByLeader(params: UserApiType.UpdateUsersGr
 export async function deleteUsersGroupByLeader(params: UserApiType.DeleteUsersGroupByLeaderReq): Promise<Resp<UserApiType.DeleteUsersGroupByLeaderRes>> {
 	return await request.post('http://127.0.0.1:3000/administrate/user/deleteUsersGroupByLeader', params)
 }
+
+export async function getUserInfo(): Promise<Resp<UserApiType.GetUserInfoResp>> {
+	return await request.post('http://127.0.0.1:3000/administrate/user/getUserInfo')
+}

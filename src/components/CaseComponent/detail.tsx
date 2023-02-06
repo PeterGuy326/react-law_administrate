@@ -1,4 +1,4 @@
-import { message, Upload, UploadFile, Avatar, List, Form, Mentions, Button } from 'antd'
+import { message, Upload, UploadFile, Avatar, List, Form, Mentions, Button, Rate } from 'antd'
 import { useEffect, useState } from 'react'
 import * as CaseApi from '../../request/CaseApi'
 import { Typography, UploadProps } from 'antd'
@@ -10,6 +10,7 @@ import * as _ from 'lodash'
 import { USER_INFO } from '@/constant/base'
 import * as CaseComponentType from '../../types/component/case'
 import * as CommentApi from '../../request/CommentApi'
+import * as GradeApi from '../../request/GradeApi'
 
 const { Title, Paragraph } = Typography
 
@@ -18,6 +19,7 @@ export default () => {
 	const [mentionsUserList, setMentionsUserList] = useState<{ label: string, value: string }[]>([])
 	const [CommentsData, setCommentsData] = useState<CaseComponentType.CaseDetailCommentItem[]>([])
 	const [CommentContent, setCommentContent] = useState('')
+	const [gradeValue, setGradeValue] = useState(0)
 	let fileList: UploadFile[] = []
 	const [form] = Form.useForm()
 	const props: UploadProps = {
@@ -34,6 +36,7 @@ export default () => {
 		getCaseDetail()
 		getUserList()
 		getCommentList()
+		getGrade()
 	}, [])
 
 	const getCaseDetail = async () => {
@@ -84,6 +87,22 @@ export default () => {
 		setCommentsData(res)
 	}
 
+	const getGrade = async () => {
+		const { data, code, msg } = await GradeApi.getGradeByUid({ caseId })
+		if (code !== 0) {
+			message.error(msg)
+		}
+		setGradeValue(data.score) 
+	}
+
+	const saveGrade = async (score: number) => {
+		const { code, msg } = await GradeApi.saveGradeByCaseId({ score, caseId })
+		if (code !== 0) {
+			message.error(msg)
+		}
+		setGradeValue(score)
+	}
+
 	const onFinish = async () => {
 		try {
 			const values = await form.validateFields()
@@ -104,6 +123,7 @@ export default () => {
 	return (
 		<Typography>
 			<Paragraph>
+				<Rate onChange={(v) => saveGrade(v)} value={gradeValue}/>
 				<div dangerouslySetInnerHTML={{ __html: article }} />
 			</Paragraph>
 			<Paragraph>

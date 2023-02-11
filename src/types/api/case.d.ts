@@ -1,3 +1,5 @@
+import { type } from "os"
+
 export interface GetCaseListReq {
     startTime?: string,
     endTime?: string,
@@ -46,4 +48,20 @@ export interface GetCaseDetailResp {
     text: string,
     createdAt: string,
     updatedAt: string
+}
+
+export interface GetRecommendCaseListReq {}
+
+export type GetRecommendCaseListResp = GetCaseListResp
+
+export interface GetCountReq {
+    filters: {
+        getCaseList: GetCaseListReq,
+        getRecommendCaseList: GetRecommendCaseListReq
+    }
+}
+
+export interface GetCountResp {
+    getCaseList: number,
+    getRecommendCaseList: number
 }

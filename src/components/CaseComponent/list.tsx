@@ -2,6 +2,7 @@ import { ProList } from '@ant-design/pro-components'
 import { Badge, Button, Space, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
 import * as CaseApi from '../../request/CaseApi'
+import * as CaseApiType from './../../types/api/case'
 import * as CaseComponentType from '../../types/component/case'
 import { useNavigate } from 'react-router-dom'
 import { CaseCategoryMap } from '../../constant/case'
@@ -26,10 +27,12 @@ export default () => {
 	const [totalKey, setTotalKey] = useState(0)
 	const [pageVal, setPageVal] = useState(1)
 	const [sizeVal, setSizeVal] = useState(5)
+	const [getCountResp, setCountResp] = useState<CaseApiType.GetCountResp>({ getCaseList: 0, getRecommendCaseList: 0 })
 	const [dataSource, setDataSource] = useState<CaseComponentType.CaseProListItem[]>([])
 
 	useEffect(() => {
-		getCaseList(pageVal, sizeVal)
+		getCaseList(pageVal, sizeVal, activeKey)
+		getCount()
 	}, [])
 
 	const navigateTo = useNavigate()
@@ -38,7 +41,7 @@ export default () => {
 		navigateTo('/addCase')
 	}
 
-	const getCaseList = async (page: number, size: number) => {
+	const getAllCaseList = async (page: number, size: number) => {
 		const dataSourceTemp: CaseComponentType.CaseProListItem[] = []
 		const { data } = await CaseApi.getCaseList({
 			page,
@@ -64,7 +67,55 @@ export default () => {
 			})
 		})
 		await setTotalKey(data.total)
-		setDataSource(dataSourceTemp)
+		await setDataSource(dataSourceTemp)
+	}
+
+	const getRecommendCaseList = async () => {
+		const dataSourceTemp: CaseComponentType.CaseProListItem[] = []
+		const { data } = await CaseApi.getRecommendCaseList()
+		data.list.map((item) => {
+			const { caseId, name, category, desc, createdTime, updatedTIme } = item
+			dataSourceTemp.push({
+				caseId,
+				name,
+				desc,
+				category,
+				content: [
+					{
+						label: '开始时间',
+						value: createdTime,
+					},
+					{
+						label: '修改时间',
+						value: updatedTIme,
+					},
+				],
+			})
+		})
+		await setTotalKey(data.total)
+		await setDataSource(dataSourceTemp)
+	}
+
+	const getCaseList = async (page: number, size: number, key: React.Key | undefined) => {
+		if (key === 'tab1') {
+			await getRecommendCaseList()
+		}
+		if (key === 'tab2') {
+			await getAllCaseList(page, size)
+		}
+	}
+
+	const getCount = async () => {
+		const params: CaseApiType.GetCountReq = {
+			filters: {
+				getCaseList: {},
+				getRecommendCaseList: {}
+			}
+		}
+		const { data, code } = await CaseApi.getCount(params)
+		if (code === 0) {
+			setCountResp(data)
+		}
 	}
 
 	return (
@@ -117,16 +168,21 @@ export default () => {
 					items: [
 						{
 							key: 'tab1',
-							label: <span>全部案件{renderBadge(totalKey, activeKey === 'tab1')}</span>,
+							label: <span>推荐案件{renderBadge(getCountResp.getRecommendCaseList, activeKey === 'tab1')}</span>,
+						},
+						{
+							key: 'tab2',
+							label: <span>全部案件{renderBadge(getCountResp.getCaseList, activeKey === 'tab2')}</span>,
 						},
 					],
 					async onChange(key) {
 						await setActiveKey(key)
+						await getCaseList(1, sizeVal, key)
 					},
 				},
 				search: {
 					onSearch: async (value: string) => {
-						await getCaseList(pageVal, sizeVal)
+						await getCaseList(pageVal, sizeVal, activeKey)
 					},
 				},
 				actions: [
@@ -141,7 +197,7 @@ export default () => {
 				onChange: async (page, pageSize) => {
 					await setPageVal(page)
 					await setSizeVal(pageSize)
-					await getCaseList(page, pageSize)
+					await getCaseList(page, pageSize, activeKey)
 				},
 			}}
 		/>

@@ -13,3 +13,11 @@ export async function saveCase(params: CaseApiType.SaveCaseReq): Promise<Resp<Ca
 export async function getCaseDetail(params: CaseApiType.GetCaseDetailReq): Promise<Resp<CaseApiType.GetCaseDetailResp>> {
 	return await request.post('http://127.0.0.1:3000/administrate/case/getCaseDetail', params)
 }
+
+export async function getRecommendCaseList(): Promise<Resp<CaseApiType.GetRecommendCaseListResp>> {
+	return await request.post('http://127.0.0.1:3000/administrate/case/getRecommendCaseList')
+}
+
+export async function getCount(params: CaseApiType.GetCountReq): Promise<Resp<CaseApiType.GetCountResp>> {
+	return await request.post('http://127.0.0.1:3000/administrate/case/getCount', params)
+}

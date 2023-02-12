@@ -75,12 +75,12 @@ const routes = [
             },
             {
                 breadcrumb: '案件添加',
-                path: '/addCase',
+                path: '/caseList/addCase',
                 element: withLoadingComponent(<AddCaseComponent />)
             },
             {
                 breadcrumb: '案件详情',
-                path: '/caseDetail',
+                path: '/caseList/caseDetail',
                 element: withLoadingComponent(<CaseDetailComponent />)
             }
         ]
@@ -96,7 +96,7 @@ const routes = [
             },
             {
                 breadcrumb: '部门成员',
-                path: '/memberListByGroupId',
+                path: '/groupList/memberListByGroupId',
                 element: withLoadingComponent(<MemberListByGroupIdComponent />)
             }
         ]

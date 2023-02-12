@@ -27,7 +27,7 @@ export default () => {
 	const [totalKey, setTotalKey] = useState(0)
 	const [pageVal, setPageVal] = useState(1)
 	const [sizeVal, setSizeVal] = useState(5)
-	const [getCountResp, setCountResp] = useState<CaseApiType.GetCountResp>({ getCaseList: 0, getRecommendCaseList: 0 })
+	const [getCountResp, setCountResp] = useState<CaseApiType.GetCountResp>({ getCaseList: 0, getRecommendCaseList: 0, getMineCaseList: 0 })
 	const [dataSource, setDataSource] = useState<CaseComponentType.CaseProListItem[]>([])
 
 	useEffect(() => {
@@ -38,7 +38,7 @@ export default () => {
 	const navigateTo = useNavigate()
 
 	const linkToAdd = () => {
-		navigateTo('/addCase')
+		navigateTo('/caseList/addCase')
 	}
 
 	const getAllCaseList = async (page: number, size: number) => {
@@ -96,6 +96,35 @@ export default () => {
 		await setDataSource(dataSourceTemp)
 	}
 
+	const getMineCaseList = async (page: number, size: number) => {
+		const dataSourceTemp: CaseComponentType.CaseProListItem[] = []
+		const { data } = await CaseApi.getMineCaseList({
+			page,
+			size,
+		})
+		data.list.map((item) => {
+			const { caseId, name, category, desc, createdTime, updatedTIme } = item
+			dataSourceTemp.push({
+				caseId,
+				name,
+				desc,
+				category,
+				content: [
+					{
+						label: '开始时间',
+						value: createdTime,
+					},
+					{
+						label: '修改时间',
+						value: updatedTIme,
+					},
+				],
+			})
+		})
+		await setTotalKey(data.total)
+		await setDataSource(dataSourceTemp)
+	}
+
 	const getCaseList = async (page: number, size: number, key: React.Key | undefined) => {
 		if (key === 'tab1') {
 			await getRecommendCaseList()
@@ -103,13 +132,17 @@ export default () => {
 		if (key === 'tab2') {
 			await getAllCaseList(page, size)
 		}
+		if (key === 'tab3') {
+			await getMineCaseList(page, size)
+		}
 	}
 
 	const getCount = async () => {
 		const params: CaseApiType.GetCountReq = {
 			filters: {
 				getCaseList: {},
-				getRecommendCaseList: {}
+				getRecommendCaseList: {},
+				getMineCaseList: {}
 			}
 		}
 		const { data, code } = await CaseApi.getCount(params)
@@ -157,7 +190,7 @@ export default () => {
 				actions: {
 					render: (_, record) => [
 						<Space size='middle'>
-							<Link to={`/caseDetail?id=${record.caseId}`}>查看</Link>
+							<Link to={`/caseList/caseDetail?id=${record.caseId}`}>查看</Link>
 						</Space>
 					],
 				},
@@ -174,6 +207,10 @@ export default () => {
 							key: 'tab2',
 							label: <span>全部案件{renderBadge(getCountResp.getCaseList, activeKey === 'tab2')}</span>,
 						},
+						{
+							key: 'tab3',
+							label: <span>我的案件{renderBadge(getCountResp.getMineCaseList, activeKey === 'tab3')}</span>,
+						}
 					],
 					async onChange(key) {
 						await setActiveKey(key)

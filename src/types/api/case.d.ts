@@ -54,14 +54,20 @@ export interface GetRecommendCaseListReq {}
 
 export type GetRecommendCaseListResp = GetCaseListResp
 
+export type GetMineCaseListReq =  GetCaseListReq
+
+export type GetMineCaseListResp = GetCaseListResp
+
 export interface GetCountReq {
     filters: {
         getCaseList: GetCaseListReq,
-        getRecommendCaseList: GetRecommendCaseListReq
+        getRecommendCaseList: GetRecommendCaseListReq,
+        getMineCaseList: GetMineCaseListReq
     }
 }
 
 export interface GetCountResp {
     getCaseList: number,
-    getRecommendCaseList: number
+    getRecommendCaseList: number,
+    getMineCaseList: number
 }

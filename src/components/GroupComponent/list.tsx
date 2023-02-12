@@ -28,7 +28,7 @@ export default () => {
 			key: 'action',
 			render: (_, record) => (
 				<Space size='middle'>
-					<Link to={`/memberListByGroupId?id=${record.groupId}`}>查看</Link>
+					<Link to={`/groupList/memberListByGroupId?id=${record.groupId}`}>查看</Link>
 				</Space>
 			),
 		},

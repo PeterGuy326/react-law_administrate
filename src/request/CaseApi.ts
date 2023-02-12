@@ -18,6 +18,10 @@ export async function getRecommendCaseList(): Promise<Resp<CaseApiType.GetRecomm
 	return await request.post('http://127.0.0.1:3000/administrate/case/getRecommendCaseList')
 }
 
+export async function getMineCaseList(params: CaseApiType.GetMineCaseListReq): Promise<Resp<CaseApiType.GetMineCaseListResp>> {
+	return await request.post('http://127.0.0.1:3000/administrate/case/getMineCaseList', params)
+}
+
 export async function getCount(params: CaseApiType.GetCountReq): Promise<Resp<CaseApiType.GetCountResp>> {
 	return await request.post('http://127.0.0.1:3000/administrate/case/getCount', params)
 }
